@@ -44,6 +44,7 @@ public class ViewUser extends AppCompatActivity {
                         Long.parseLong(phone.getText().toString()),
                         email.getText().toString());
                 UserDB.getInstance(getApplicationContext()).userDAO().update(user1);
+                finishAndRemoveTask();
             }
         });
 
@@ -52,6 +53,7 @@ public class ViewUser extends AppCompatActivity {
             public void onClick(View view) {
                 if(user!=null)
                     UserDB.getInstance(getApplicationContext()).userDAO().delete(user.getId());
+                finishAndRemoveTask();
             }
         });
     }
