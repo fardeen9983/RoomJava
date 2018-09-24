@@ -15,6 +15,7 @@ public class ViewUser extends AppCompatActivity {
     FloatingActionButton saveChanges, deleteUser;
     EditText name, email, phone;
     User user = null;
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,31 +30,38 @@ public class ViewUser extends AppCompatActivity {
         phone = findViewById(R.id.phone_edit);
 
         Intent intent = getIntent();
-        if(intent!=null){
-            user = (User) intent.getSerializableExtra("student");
+        if (intent != null) {
+            user = (User) intent.getSerializableExtra("user");
 
-            name.setText(user.getName());
-            email.setText(user.getEmail());
-            phone.setText(user.getPhone().toString());
+            name.setHint(user.getName());
+            email.setHint(user.getEmail());
+            phone.setHint(user.getPhone().toString());
         }
 
         saveChanges.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                User user1 = new User(name.getText().toString(),
-                        Long.parseLong(phone.getText().toString()),
-                        email.getText().toString());
+
+                String nameVal = name.getText().toString().isEmpty() ?
+                        name.getHint().toString() : name.getText().toString();
+                String emailVal = email.getText().toString().isEmpty() ?
+                                email.getHint().toString() : email.getText().toString();
+                Long phoneVal = Long.parseLong(phone.getText().toString().isEmpty() ?
+                        phone.getHint().toString() : phone.getText().toString());
+                User user1 = new User(nameVal, phoneVal, emailVal);
+                user1.setId(user.getId());
                 UserDB.getInstance(getApplicationContext()).userDAO().update(user1);
-                finishAndRemoveTask();
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });
+
 
         deleteUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(user!=null)
-                    UserDB.getInstance(getApplicationContext()).userDAO().delete(user.getId());
-                finishAndRemoveTask();
+                if (user != null)
+                    UserDB.getInstance(getApplicationContext()).userDAO().delete(user);
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });
     }

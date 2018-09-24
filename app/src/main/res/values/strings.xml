@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RoomJava</string>
+    <string name="app_name">User Database</string>
 
     <string name="name">Name</string>
     <string name="email">Email</string>

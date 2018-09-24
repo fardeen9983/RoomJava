@@ -27,7 +27,7 @@ public interface UserDAO{
     void updateAll(List<User> users);
 
     @Delete
-    void delete(int id);
+    void delete(User user);
 
     @Transaction
     @Query("DELETE FROM user")
